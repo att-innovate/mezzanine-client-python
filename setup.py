@@ -40,12 +40,12 @@ setup(
     author_email='mezzanine-users@googlegroups.com',   
     url='http://gcushen.github.io/mezzanine-api',
     description='A Python client for Mezzanine REST API.',
-    keywords='mezzanine cms api client rest restful',
+    keywords='mezzanine cms api client sdk library rest restful',
     include_package_data=True,
     license='ISC',
     packages=find_packages(exclude=['tests']),
     install_requires=[
-        'requests>=2.9.1'
+        'requests>=2.9.1',
         'requests-oauthlib>=0.6.1'
     ],
     classifiers=[
