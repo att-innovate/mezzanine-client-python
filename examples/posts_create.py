@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 
 """
-Mezzanine Client Example:
-Publish a new blog post
+Mezzanine Client Example: Publish a new blog post
 
 See: https://github.com/gcushen/mezzanine-client-python
 
 Notes:
 - We assume OAuth app id and secret are provided via environment variables MN_ID and MN_SECRET.
 - Alternatively, include them in a tuple below like: Mezzanine(('my_app_id', 'my_app_secret')).
+
+Copyright (C) 2016 George Cushen.
+License: https://github.com/gcushen/mezzanine-client-python/blob/master/LICENSE
 """
 
 import pprint
@@ -19,6 +21,7 @@ from builtins import input
 
 from mezzanine_client import Mezzanine
 from mezzanine_client.utils import str_header, str_green
+
 
 # Initialise Mezzanine API client
 api = Mezzanine()

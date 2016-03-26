@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 
 """
-Mezzanine Client Example:
-Retrieve a blog post
+Mezzanine Client Example: Retrieve a blog post
 
 See: https://github.com/gcushen/mezzanine-client-python
 
 Notes:
 - We assume OAuth app id and secret are provided via environment variables MN_ID and MN_SECRET.
 - Alternatively, include them in a tuple below like: Mezzanine(('my_app_id', 'my_app_secret')).
+
+Copyright (C) 2016 George Cushen.
+License: https://github.com/gcushen/mezzanine-client-python/blob/master/LICENSE
 """
 
 import sys

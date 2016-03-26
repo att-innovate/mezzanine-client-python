@@ -1,18 +1,21 @@
 #!/usr/bin/env python
 
 """
-Mezzanine Client Example:
-Display most recent published blog posts
+Mezzanine Client Example: List most recently published blog posts
 
 See: https://github.com/gcushen/mezzanine-client-python
 
 Notes:
 - We assume OAuth app id and secret are provided via environment variables MN_ID and MN_SECRET.
 - Alternatively, include them in a tuple below like: Mezzanine(('my_app_id', 'my_app_secret')).
+
+Copyright (C) 2016 George Cushen.
+License: https://github.com/gcushen/mezzanine-client-python/blob/master/LICENSE
 """
 
 from mezzanine_client import Mezzanine
 from mezzanine_client.utils import str_header, str_blue
+
 
 # Initialise Mezzanine API client
 api = Mezzanine()
