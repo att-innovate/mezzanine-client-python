@@ -46,7 +46,8 @@ setup(
     packages=find_packages(exclude=['tests']),
     install_requires=[
         'requests>=2.9.1',
-        'requests-oauthlib>=0.6.1'
+        'requests-oauthlib>=0.6.1',
+        'PyYAML>=3.11'
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
