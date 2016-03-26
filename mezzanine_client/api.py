@@ -151,13 +151,13 @@ class Mezzanine(MezzanineCore):
     def __init__(self):
         super(Mezzanine, self).__init__()
 
-    def get_post(self, post_id):
+    def get_post(self, item_id):
         """
         Get a published blog post
-        :param post_id: id of blog post to retrieve
+        :param item_id: id of blog post to retrieve
         :return: dict of specified blog post
         """
-        return self._get(['posts', int(post_id)])
+        return self._get(['posts', int(item_id)])
 
     def get_posts(self, page=1):
         """
@@ -174,3 +174,58 @@ class Mezzanine(MezzanineCore):
         :return: deserialized API resource containing ID of the new blog post
         """
         return self._post(['posts'], data)
+
+    def get_page(self, item_id):
+        """
+        Get a page
+        :param item_id: id of page to retrieve
+        :return: dict of specified page
+        """
+        return self._get(['pages', int(item_id)])
+
+    def get_pages(self, page=1):
+        """
+        Get pages
+        :param page: page number for paginated results, where '1' is most recent
+        :return: list of dicts for pages
+        """
+        return self._get(['pages?page={}'.format(int(page))])['results']
+
+    def get_user(self, item_id):
+        """
+        Get a user
+        :param item_id: id of user to retrieve
+        :return: dict of specified user
+        """
+        return self._get(['users', int(item_id)])
+
+    def get_users(self, page=1):
+        """
+        Get users
+        :param page: page number for paginated results, where '1' is most recent
+        :return: list of dicts for users
+        """
+        return self._get(['users?page={}'.format(int(page))])['results']
+
+    def get_category(self, item_id):
+        """
+        Get a category
+        :param item_id: id of category to retrieve
+        :return: dict of specified category
+        """
+        return self._get(['categories', int(item_id)])
+
+    def get_categories(self, page=1):
+        """
+        Get categories
+        :param page: page number for paginated results, where '1' is most recent
+        :return: list of dicts for categories
+        """
+        return self._get(['categories?page={}'.format(int(page))])['results']
+
+    def get_site(self):
+        """
+        Get site/app metadata
+        :return: dict of site/app metadata
+        """
+        return self._get(['site'])
