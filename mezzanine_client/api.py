@@ -39,10 +39,10 @@ class MezzanineCore(object):
             self.client_secret = credentials[1]
         else:
             try:
-                self.client_id = os.environ['MN_ID']
-                self.client_secret = os.environ['MN_SECRET']
+                self.client_id = os.environ['MZN_ID']
+                self.client_secret = os.environ['MZN_SECRET']
             except KeyError:
-                print('Error: Please set environment variables MN_ID and MN_SECRET with your OAuth app key and secret.')
+                print('Error: Please set environment variables MZN_ID and MZN_SECRET with your OAuth app ID and secret.')
                 sys.exit(1)
 
         credentials_data = {
@@ -159,13 +159,14 @@ class Mezzanine(MezzanineCore):
         """
         return self._get(['posts', int(item_id)])
 
-    def get_posts(self, page=1):
+    def get_posts(self, offset=0, limit=10):
         """
         Get published blog posts
-        :param page: page number for paginated results, where '1' is most recent
+        :param offset: pagination offset
+        :param limit: pagination limit
         :return: list of dicts for most recently published blog posts
         """
-        return self._get(['posts?page={}'.format(int(page))])['results']
+        return self._get(['posts?offset={}&limit={}'.format(int(offset), int(limit))])['results']
 
     def create_post(self, data):
         """
@@ -183,13 +184,14 @@ class Mezzanine(MezzanineCore):
         """
         return self._get(['pages', int(item_id)])
 
-    def get_pages(self, page=1):
+    def get_pages(self, offset=0, limit=10):
         """
         Get pages
-        :param page: page number for paginated results, where '1' is most recent
+        :param offset: pagination offset
+        :param limit: pagination limit
         :return: list of dicts for pages
         """
-        return self._get(['pages?page={}'.format(int(page))])['results']
+        return self._get(['pages?offset={}&limit={}'.format(int(offset), int(limit))])['results']
 
     def get_user(self, item_id):
         """
@@ -199,13 +201,14 @@ class Mezzanine(MezzanineCore):
         """
         return self._get(['users', int(item_id)])
 
-    def get_users(self, page=1):
+    def get_users(self, offset=0, limit=20):
         """
         Get users
-        :param page: page number for paginated results, where '1' is most recent
+        :param offset: pagination offset
+        :param limit: pagination limit
         :return: list of dicts for users
         """
-        return self._get(['users?page={}'.format(int(page))])['results']
+        return self._get(['users?offset={}&limit={}'.format(int(offset), int(limit))])['results']
 
     def get_category(self, item_id):
         """
@@ -215,13 +218,14 @@ class Mezzanine(MezzanineCore):
         """
         return self._get(['categories', int(item_id)])
 
-    def get_categories(self, page=1):
+    def get_categories(self, offset=0, limit=20):
         """
         Get categories
-        :param page: page number for paginated results, where '1' is most recent
+        :param offset: pagination offset
+        :param limit: pagination limit
         :return: list of dicts for categories
         """
-        return self._get(['categories?page={}'.format(int(page))])['results']
+        return self._get(['categories?offset={}&limit={}'.format(int(offset), int(limit))])['results']
 
     def get_site(self):
         """
