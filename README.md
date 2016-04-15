@@ -8,7 +8,7 @@ Python client SDK and remote CLI for [Mezzanine API](http://gcushen.github.io/me
 
 # Installation
 
-    pip install --upgrade mezzanine-client
+    pip install -U mezzanine-client
 
 # Documentation
 
@@ -21,7 +21,7 @@ from mezzanine_client import Mezzanine
 api = Mezzanine( 'app_id', 'app_secret' )
 
 # Recent posts
-published_posts = api.get_posts(page=1)
+published_posts = api.get_posts(offset=0, limit=10)
 for post in published_posts:
     print('{} (ID: {})'.format(post['title'], post['id']))
 ```
