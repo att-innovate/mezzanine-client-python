@@ -38,8 +38,8 @@ setup(
     version=version,
     author='George Cushen',
     author_email='mezzanine-users@googlegroups.com',   
-    url='http://gcushen.github.io/mezzanine-api',
-    description='A Python client and remote CLI for Mezzanine REST API.',
+    url='http://gcushen.github.io/mezzanine-api/client/',
+    description='A remote CLI and Python client SDK for Mezzanine REST API.',
     keywords='mezzanine cms api client sdk library rest restful',
     include_package_data=True,
     license='ISC',
@@ -47,9 +47,14 @@ setup(
     install_requires=[
         'requests>=2.9.1',
         'requests-oauthlib>=0.6.1',
-        'PyYAML>=3.11',
-        'future'
+        'click',
+        'future',
+        'markdown2'
     ],
+    entry_points="""
+        [console_scripts]
+        mezzanine-cli=mezzanine_client.cli:client
+    """,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',

@@ -1,17 +1,17 @@
 import os
 import sys
 import json
+from requests_oauthlib import OAuth2Session
 
 # Python 2 and 3 compatible input
 from builtins import input
 
-from requests_oauthlib import OAuth2Session
-
+from .config import Parser, settings
 from .errors import MezzanineValueError
-from .config import Config
 
 
-# Redirect URI for the app
+# OAuth Redirect URI
+# Must match the value supplied when creating the OAuth App!
 # Ideally should be 'urn:ietf:wg:oauth:2.0:oob' but currently unsupported by django-oauth-toolkit
 REDIRECT_URI = 'https://httpbin.org/get'
 
@@ -42,7 +42,8 @@ class MezzanineCore(object):
                 self.client_id = os.environ['MZN_ID']
                 self.client_secret = os.environ['MZN_SECRET']
             except KeyError:
-                print('Error: Please set environment variables MZN_ID and MZN_SECRET with your OAuth app ID and secret.')
+                print('Error: API credentials were not provided.\n'
+                      'Please set environment variables MZN_ID and MZN_SECRET with your OAuth app ID and secret.')
                 sys.exit(1)
 
         credentials_data = {
@@ -56,9 +57,8 @@ class MezzanineCore(object):
         self.token_url = self.api_url + '/oauth2/token/'
         self.refresh_url = self.token_url
 
-        # Attempt to load client config if exists
-        self.config = Config()
-        refresh_token = self.config.load()
+        # Set refresh token from cache (if exists)
+        refresh_token = settings.refresh_token
 
         # Initialise session
         self.session = OAuth2Session(self.client_id, redirect_uri=REDIRECT_URI, auto_refresh_url=self.refresh_url)
@@ -68,22 +68,27 @@ class MezzanineCore(object):
         if not refresh_token:
             authorization_url, state = self.session.authorization_url(self.auth_url)
             print("Please click to authorize this app: {}".format(authorization_url))
-            code = input("Paste the authorization code from your browser (args > code) here: ").strip()
+            code = input("Paste the authorization code (args > code) from your browser here: ").strip()
 
             # Fetch the access token
             self.session.fetch_token(self.token_url, client_secret=self.client_secret, code=code)
             self._dump()
         else:
             # Refresh the token
-            self.session.refresh_token(self.token_url, refresh_token=refresh_token, **credentials_data)
+            self.session.refresh_token(self.refresh_url, refresh_token=refresh_token, **credentials_data)
             self._dump()
 
     def _dump(self):
         """
-        Save client config
+        Save refresh token to client config
         """
-        data_dump = {'refresh_token': self.session.token['refresh_token'].encode('utf-8')}
-        self.config.dump(data_dump)
+        filename = os.path.expanduser('~/.mezzanine.cfg')
+        parser = Parser()
+        parser.add_section('general')
+        parser.read(filename)
+        parser.set('general', 'refresh_token', self.session.token['refresh_token'])
+        with open(filename, 'w') as config_file:
+            parser.write(config_file)
 
     @staticmethod
     def _json_serialize(obj):
@@ -148,8 +153,8 @@ class Mezzanine(MezzanineCore):
     The publicly accessible API client class
     """
 
-    def __init__(self):
-        super(Mezzanine, self).__init__()
+    def __init__(self, credentials=None, api_url=None, version=None):
+        super(Mezzanine, self).__init__(credentials, api_url, version)
 
     def get_post(self, item_id):
         """
