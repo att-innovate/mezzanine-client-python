@@ -52,7 +52,7 @@ class MezzanineCore(object):
         }
 
         # API URLs
-        self.api_url = api_url or 'http://127.0.0.1:8000/api'
+        self.api_url = api_url or settings.api_url or 'http://127.0.0.1:8000/api'
         self.auth_url = self.api_url + '/oauth2/authorize'
         self.token_url = self.api_url + '/oauth2/token/'
         self.refresh_url = self.token_url
