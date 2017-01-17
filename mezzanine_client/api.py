@@ -164,14 +164,16 @@ class Mezzanine(MezzanineCore):
         """
         return self._get(['posts', int(item_id)])
 
-    def get_posts(self, offset=0, limit=10):
+    def get_posts(self, offset=0, limit=10, category="", date_min = ""):
         """
         Get published blog posts
         :param offset: pagination offset
         :param limit: pagination limit
+        :param category: the category which the post related to
+        :param limit: date_min of posts to return
         :return: list of dicts for most recently published blog posts
         """
-        return self._get(['posts?offset={}&limit={}'.format(int(offset), int(limit))])['results']
+        return self._get(['posts?offset={}&limit={}&category_name={}&date_min={}'.format(int(offset), int(limit), category, date_min)])['results']
 
     def create_post(self, data):
         """
